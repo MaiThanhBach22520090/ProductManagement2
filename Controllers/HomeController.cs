@@ -31,6 +31,7 @@ namespace ProductManagement2.Controllers
 		}
 
 		public IActionResult ProductsByCatalog(int CatalogID, int? page)
+		public IActionResult ProductsByCatalog(int CatalogID, int? page)
 		{
 			int pageSize = 8;
 			int pageNumber = page == null || page < 0 ? 1 : page.Value;
@@ -43,6 +44,13 @@ namespace ProductManagement2.Controllers
 
 		public IActionResult ProductDetails(string productCode)
 		{
+			int pageSize = 8;
+			int pageNumber = page == null || page < 0 ? 1 : page.Value;
+			var products = db.Products.AsNoTracking().Where(x => x.CatalogId == CatalogID).OrderBy(x => x.Id);
+			PagedList<Product> list = new PagedList<Product>(products, pageNumber, pageSize);
+
+			ViewBag.CatalogID = CatalogID;
+			return View(list);
 			var product = db.Products.SingleOrDefault(x => x.ProductCode== productCode);
 			return View(product);
 		}
