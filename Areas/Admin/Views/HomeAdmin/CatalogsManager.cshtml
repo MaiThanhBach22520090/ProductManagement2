@@ -1,0 +1,58 @@
+﻿@model IEnumerable<ProductManagement2.Models.Catalog>
+
+@{
+    ViewData["Title"] = "CatalogsManager";
+    Layout = "~/Areas/Admin/Views/Shared/_LayoutAdmin.cshtml";
+}
+
+<h1>CatalogsManager</h1>
+
+<p>
+    <a asp-action="Create">Create New</a>
+</p>
+
+<table class="table">
+    <thead>
+        <tr class="table-warning">
+            <th>
+                @Html.DisplayNameFor(model => model.CatalogCode)
+            </th>
+            <th>
+                @Html.DisplayNameFor(model => model.CatalogName)
+            </th>
+            <th></th>
+        </tr>
+    </thead>
+    <tbody>
+        @{
+            int i = 0;
+            string @cls = "table-primary";
+        }
+        @foreach (var item in Model)
+        {
+            // Alternating row colors
+            if (i % 2 == 0)
+            {
+                cls = "table-primary";
+            }
+            else
+            {
+                cls = "";
+            }
+            i++;
+            <tr class="@cls">
+                <td>
+                    @Html.DisplayFor(modelItem => item.CatalogCode)
+                </td>
+                <td>
+                    @Html.DisplayFor(modelItem => item.CatalogName)
+                </td>
+                <td>
+                    <a asp-action="Edit" asp-route-id="@item.Id">Edit</a> |
+                    <a asp-action="Details" asp-route-id="@item.Id">Details</a> |
+                    <a asp-action="Delete" asp-route-id="@item.Id">Delete</a>
+                </td>
+            </tr>
+        }
+    </tbody>
+</table>

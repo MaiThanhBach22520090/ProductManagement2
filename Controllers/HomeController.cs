@@ -30,10 +30,21 @@ namespace ProductManagement2.Controllers
 			return View(list);
 		}
 
-		public IActionResult ProductsByCatalog(int CatalogID)
+		public IActionResult ProductsByCatalog(int CatalogID, int? page)
 		{
-			List<Product> products = db.Products.Where(x=>x.CatalogId == CatalogID).ToList();
-			return View(products);
+			int pageSize = 8;
+			int pageNumber = page == null || page < 0 ? 1 : page.Value;
+			var products = db.Products.AsNoTracking().Where(x => x.CatalogId == CatalogID).OrderBy(x => x.Id);
+			PagedList<Product> list = new PagedList<Product>(products, pageNumber, pageSize);
+
+			ViewBag.CatalogID = CatalogID;
+			return View(list);
+		}
+
+		public IActionResult ProductDetails(string productCode)
+		{
+			var product = db.Products.SingleOrDefault(x => x.ProductCode== productCode);
+			return View(product);
 		}
 
 		public IActionResult Privacy()
