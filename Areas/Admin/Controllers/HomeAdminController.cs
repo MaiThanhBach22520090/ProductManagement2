@@ -1,5 +1,6 @@
 ﻿using Microsoft.AspNetCore.Mvc;
 using Microsoft.AspNetCore.Mvc.Rendering;
+using Microsoft.EntityFrameworkCore;
 using ProductManagement2.Models;
 
 namespace ProductManagement2.Areas.Admin.Controllers
@@ -56,5 +57,48 @@ namespace ProductManagement2.Areas.Admin.Controllers
 
 			return View(product);
         }
+
+		[Route("EditProduct")]
+		[HttpGet]
+		public IActionResult EditProduct(int id)
+        {
+            var product = db.Products.Find(id);
+            ViewBag.CatalogId = new SelectList(db.Catalogs.ToList(), "Id", "CatalogName", product.CatalogId);
+            return View(product);
+        }
+
+		[Route("EditProduct")]
+		[HttpPost]
+		[ValidateAntiForgeryToken]
+		public IActionResult EditProduct(Product product)
+        {
+            if (ModelState.IsValid)
+            {
+                db.Products.Entry(product).State = EntityState.Modified;
+                db.SaveChanges();
+                return RedirectToAction("ProductsManager", "HomeAdmin");
+            }
+
+            return View(product);
+        }
+
+		[Route("DeleteProduct")]
+		[HttpGet]
+		public IActionResult DeleteProduct(int id)
+		{
+			TempData["Message"] = "";
+			var product = db.Products.Find(id);
+			if (product != null)
+			{
+				db.Products.Remove(product);
+				db.SaveChanges();
+				TempData["Message"] = "Product has been deleted!";
+			}
+			else
+			{
+				TempData["Message"] = "Product not found!";
+			}
+			return RedirectToAction("ProductsManager");
+		}
 	}
 }
