@@ -1,6 +1,7 @@
 ﻿using Microsoft.AspNetCore.Mvc;
 using Microsoft.AspNetCore.Mvc.Rendering;
 using Microsoft.EntityFrameworkCore;
+using ProductManagement2.Authentication;
 using ProductManagement2.Models;
 
 namespace ProductManagement2.Areas.Admin.Controllers
@@ -13,13 +14,16 @@ namespace ProductManagement2.Areas.Admin.Controllers
 	{
 		QuanLySanPhamContext db = new QuanLySanPhamContext();
 
+		[Route("")]
 		[Route("Index")]
+		[Authentication]
 		public IActionResult Index()
 		{
 			return View();
 		}
 
 		[Route("ProductsManager")]
+		[Authentication]
 		public IActionResult ProductsManager()
 		{
 			var products = db.Products.ToList();
@@ -28,6 +32,7 @@ namespace ProductManagement2.Areas.Admin.Controllers
 		}
 
 		[Route("CatalogsManager")]
+		[Authentication]
 		public IActionResult CatalogsManager()
 		{
 			var catalogs = db.Catalogs.ToList();
@@ -37,6 +42,7 @@ namespace ProductManagement2.Areas.Admin.Controllers
 
 		[Route("AddProduct")]
 		[HttpGet]
+		[Authentication]
 		public IActionResult AddProduct()
         {
 			ViewBag.CatalogId = new SelectList(db.Catalogs.ToList(), "Id", "CatalogName");
@@ -60,6 +66,7 @@ namespace ProductManagement2.Areas.Admin.Controllers
 
 		[Route("EditProduct")]
 		[HttpGet]
+		[Authentication]
 		public IActionResult EditProduct(int id)
         {
             var product = db.Products.Find(id);

@@ -1,6 +1,7 @@
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.EntityFrameworkCore;
 using Microsoft.EntityFrameworkCore.Storage.ValueConversion.Internal;
+using ProductManagement2.Authentication;
 using ProductManagement2.Models;
 using System.Diagnostics;
 using X.PagedList;
@@ -18,6 +19,7 @@ namespace ProductManagement2.Controllers
 			_logger = logger;
 		}
 
+		[Authentication]
 		public IActionResult Index(int? page)
 		{
 			int pageSize = 8;
