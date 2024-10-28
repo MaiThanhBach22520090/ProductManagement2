@@ -1,4 +1,5 @@
 ﻿using Microsoft.AspNetCore.Mvc;
+using Microsoft.AspNetCore.Mvc.Rendering;
 using ProductManagement2.Models;
 
 namespace ProductManagement2.Areas.Admin.Controllers
@@ -32,5 +33,28 @@ namespace ProductManagement2.Areas.Admin.Controllers
 
 			return View(catalogs);
 		}
+
+		[Route("AddProduct")]
+		[HttpGet]
+		public IActionResult AddProduct()
+        {
+			ViewBag.CatalogId = new SelectList(db.Catalogs.ToList(), "Id", "CatalogName");
+            return View();
+        }
+
+		[Route("AddProduct")]
+		[HttpPost]
+		[ValidateAntiForgeryToken]
+		public IActionResult AddProduct(Product product)
+        {
+			if (ModelState.IsValid)
+			{
+				db.Products.Add(product);
+				db.SaveChanges();
+				return RedirectToAction("ProductsManager");
+			}
+
+			return View(product);
+        }
 	}
 }
