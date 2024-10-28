@@ -31,7 +31,6 @@ namespace ProductManagement2.Controllers
 		}
 
 		public IActionResult ProductsByCatalog(int CatalogID, int? page)
-		public IActionResult ProductsByCatalog(int CatalogID, int? page)
 		{
 			int pageSize = 8;
 			int pageNumber = page == null || page < 0 ? 1 : page.Value;
@@ -42,7 +41,7 @@ namespace ProductManagement2.Controllers
 			return View(list);
 		}
 
-		public IActionResult ProductDetails(string productCode)
+		public IActionResult ProductDetails(int CatalogID, int? page)
 		{
 			int pageSize = 8;
 			int pageNumber = page == null || page < 0 ? 1 : page.Value;
@@ -51,8 +50,6 @@ namespace ProductManagement2.Controllers
 
 			ViewBag.CatalogID = CatalogID;
 			return View(list);
-			var product = db.Products.SingleOrDefault(x => x.ProductCode== productCode);
-			return View(product);
 		}
 
 		public IActionResult Privacy()
