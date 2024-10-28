@@ -1,12 +1,11 @@
 ﻿@{
-	ViewData["Title"] = "ProductByCatalog";
+	ViewData["Title"] = "ProductsByCatalog";
 	Layout = "~/Views/Shared/_LayoutOgani.cshtml";
 }
-@* 
-@using X.PagedList.Mvc.Core;
-@model X.PagedList.IPagedList<Product> *@
 
-@model List<Product>
+@using X.PagedList.Mvc.Core;
+@model X.PagedList.IPagedList<Product>
+
 @foreach (var item in Model)
 {
 	<div class="col-lg-3 col-md-4 col-sm-6 mix oranges fresh-meat">
@@ -25,5 +24,5 @@
 		</div>
 	</div>
 }
-@* 
-@Html.PagedListPager(Model, page => Url.Action("Index", new { page = page })) *@
+
+@Html.PagedListPager(Model, page => Url.Action("ProductByCatalog", new { page = page, CatalogID = ViewBag.CatalogID }))

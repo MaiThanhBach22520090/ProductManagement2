@@ -15,7 +15,7 @@ namespace ProductManagement2.ViewComponents
 
 		public IViewComponentResult Invoke()
 		{
-			var catalog = _catalogRepository.GetAll().OrderBy(x => x.CatalogName);
+			var catalog = _catalogRepository.GetAll().OrderBy(x => x.Id);
 			return View(catalog);
 		}
 	}
